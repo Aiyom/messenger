@@ -1,2 +1,3 @@
 fastapi==0.88.0
 uvicorn[full]==0.20.0
+websockets==11.0.3

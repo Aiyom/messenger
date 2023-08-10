@@ -1,8 +1,8 @@
 from fastapi import WebSocket
 from fastapi.responses import HTMLResponse
+from fastapi import APIRouter
 
-from src.main import app
-
+chat_router = APIRouter()
 html = """
 <!DOCTYPE html>
 <html>
@@ -18,7 +18,7 @@ html = """
         <ul id='messages'>
         </ul>
         <script>
-            var ws = new WebSocket("ws://localhost:8000/ws");
+            var ws = new WebSocket("ws://localhost:5000/ws");
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages')
                 var message = document.createElement('li')
@@ -38,12 +38,12 @@ html = """
 """
 
 
-@app.get("/chat")
+@chat_router.get('/')
 async def get():
     return HTMLResponse(html)
 
 
-@app.websocket('/ws')
+@chat_router.websocket('/start')
 async def webso(websocket: WebSocket):
     await websocket.accept()
     while True:
